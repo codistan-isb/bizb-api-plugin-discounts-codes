@@ -47,25 +47,26 @@ export default async function applyDiscountCodeToCart(context, input) {
       throw new ReactionError("not-found", "Cart not found");
     }
 
-    await context.validatePermissions(
-      `reaction:legacy:carts:${cartId}`,
-      "update",
-      {
-        shopId,
-        owner: cart.accountId,
-      }
-    );
+    // await context.validatePermissions(
+    //   `reaction:legacy:carts:${cartId}`,
+    //   "update",
+    //   {
+    //     shopId,
+    //     owner: cart.accountId,
+    //   }
+    // );
   }
 
   const objectToApplyDiscount = cart;
 
   const discount = await Discounts.findOne({ code: discountCode });
+  console.log("discount", discount);
   if (!discount)
     throw new ReactionError(
       "not-found",
       `No discount found for code ${discountCode}`
     );
-
+  console.log("discount in add to cart value : ", discount);
   const { conditions } = discount;
   let accountLimitExceeded = false;
   let discountLimitExceeded = false;
@@ -111,7 +112,7 @@ export default async function applyDiscountCodeToCart(context, input) {
     },
     displayName: `Discount Code: ${discount.code}`,
     method: discount.calculation.method,
-    mode: "discount",
+    mode: discount.calculation.method,
     name: "discount_code",
     paymentPluginName: "discount-codes",
     processor: discount.discountMethod,
