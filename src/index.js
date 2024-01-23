@@ -9,7 +9,7 @@ import queries from "./queries/index.js";
 import resolvers from "./resolvers/index.js";
 import schemas from "./schemas/index.js";
 import startup from "./startup.js";
-
+import getPercentageOffDiscountAmount from "./util/getPercentageOffDiscountAmount.js";
 /**
  * @summary Import and call this function to add this plugin to your API.
  * @param {ReactionAPI} app The ReactionAPI instance
@@ -26,7 +26,8 @@ export default async function register(app) {
       "discounts/codes/discount": [getPercentageOffDiscount],
       "discounts/codes/sale": [getItemPriceDiscount],
       "discounts/codes/shipping": [getShippingDiscount],
-      "startup": [startup]
+      "startup": [startup],
+      "discounts/amounts/discount": [getPercentageOffDiscountAmount],
     },
     graphQL: {
       resolvers,
