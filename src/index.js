@@ -16,6 +16,8 @@ import getPercentageOffDiscountAmount from "./util/getPercentageOffDiscountAmoun
  * @returns {undefined}
  */
 export default async function register(app) {
+
+  console.log("Registering Reaction")
   await app.registerPlugin({
     label: "Discount Codes",
     name: "discounts-codes",
