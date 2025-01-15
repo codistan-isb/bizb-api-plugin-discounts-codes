@@ -34,6 +34,16 @@ type DiscountCode {
   transactions: [DiscountTransaction]
 }
 
+type sellerDiscount {
+  _id: ID!
+  code: String
+  sellerId: ID
+  value: Int
+  type: String
+  isValid: Boolean
+  description: String
+}
+
 "Transaction history for a discount code"
 type DiscountTransaction {
   "Date the code was applied"
@@ -370,6 +380,11 @@ type DeleteDiscountCodePayload {
   discountCode: DiscountCode
 }
 
+type sellerDiscountCodePayload {
+  totalCount: Int
+  data: [sellerDiscount]
+}
+
 extend type Query {
   "Gets discount codes"
   discountCodes(
@@ -394,6 +409,17 @@ extend type Query {
     "Return only results that come after the Nth result. This parameter may be used with the `first` parameter."
     offset: Int
   ): DiscountCodeConnection
+
+  sellerDiscountCode(
+    itemPerPage: Int
+    PageNumber: Int
+    searchQuery: String
+    startDate: String
+    endDate: String
+    sellerId: String
+    minValue: Int
+    maxValue: Int
+  ): sellerDiscountCodePayload
 }
 
 extend type Mutation {
